@@ -10,6 +10,8 @@ if __name__ == "__main__":
     if 'win' in sys.platform:
         ctypes.windll.shcore.SetProcessDpiAwareness(1)
         root = Tk()
+        root.geometry('{}x{}'.format(300, 100))
+        root.resizable(width=False, height=False)
         root.title("Patch Generator Tool")
 
     #getting input
@@ -22,8 +24,10 @@ if __name__ == "__main__":
 
     stringvar1 = tk.StringVar(root)
     stringvar1.trace("w", validation)
-    inp = Entry(root, width=50, textvariable=stringvar1)
+    inp = Entry(root, width=30, textvariable=stringvar1)
     inp.pack()
+    inp.place(relx=0.5, rely=0.5, anchor=CENTER)
+    
 
     def makepatch():
     #make directory/folder
@@ -51,8 +55,11 @@ if __name__ == "__main__":
     #copy file
         shutil.copy2(root.filename, "00000{}/Patch00000{}.pak".format(inp.get(), inp.get()))
 
-root.filename = filedialog.askopenfilename(initialdir=".", title="Select PAK File", filetypes=(("PAK Files", "*.PAK"),))
+    def open_file():
+        root.filename = filedialog.askopenfilename(initialdir=".", title="Select PAK File", filetypes=(("PAK Files", "*.PAK"),))
+
+butopen = Button(root, text="Select PAK", command=open_file).pack()
 but = Button(root, text="Click to Patch", command=makepatch, state='disabled')
-but.pack()
+but.place(relx=0.5, rely=0.8, anchor=CENTER)
 
 root.mainloop()
