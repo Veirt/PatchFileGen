@@ -1,5 +1,4 @@
 from tkinter import *
-from tkinter import filedialog
 from tkinter import messagebox
 from TkinterDnD2 import *
 import tkinter as tk
@@ -24,9 +23,11 @@ if __name__ == "__main__":
         else:
             but.config(state='disabled')
 
+
     def drop(event):
         global file_Name
         file_Name = event.data
+
 
     def makepatch():
         # make directory/folder
@@ -60,6 +61,7 @@ if __name__ == "__main__":
             pass
 
         root.destroy()
+
 
     root.drop_target_register(DND_FILES)
     root.dnd_bind('<<Drop>>', drop)
