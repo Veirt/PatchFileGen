@@ -1,7 +1,8 @@
 import sys
 import os
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidget, QListWidgetItem, QPushButton, QLineEdit
-from PyQt5.QtCore import Qt, QUrl
+from PyQt5.QtCore import Qt
 import hashlib
 import shutil
 import re
@@ -52,8 +53,10 @@ class AppDemo(QMainWindow):
         self.line = QLineEdit(self)
         self.line.move(100, 50)
         self.line.resize(200, 32)
+        self.line.textChanged.connect(self.on_text_changed)
 
         self.btn = QPushButton('Patch', self)
+        self.btn.setDisabled(True)
         self.btn.setGeometry(100, 100, 200, 50)
         self.btn.clicked.connect(self.makePatch)
 
@@ -64,6 +67,15 @@ class AppDemo(QMainWindow):
     def makePatch(self):
         file_name = self.getSelectedItem()
         versionInput = self.line.text()
+        if len(versionInput) == 1:
+            versionInput = f"00{versionInput}"
+        elif len(versionInput) == 2:
+            versionInput = f"0{versionInput}"
+        elif len(versionInput) == 3:
+            versionInput = f"{versionInput}"
+        else:
+            sys.exit()
+
         path = f"00000{versionInput}"
         try:
             os.mkdir(path)
@@ -91,6 +103,10 @@ class AppDemo(QMainWindow):
             shutil.copy2(file_name, f"00000{versionInput}/Patch00000{versionInput}.pak")
         except shutil.SameFileError:
             pass
+
+    @QtCore.pyqtSlot()
+    def on_text_changed(self):
+        self.btn.setEnabled(bool(self.line.text()))
 
 
 if __name__ == '__main__':
