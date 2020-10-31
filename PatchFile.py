@@ -1,12 +1,11 @@
 import sys
 import os
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidget, QListWidgetItem, QPushButton, QLineEdit
+from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidget, QListWidgetItem, QPushButton, QLineEdit, QLabel
 from PyQt5.QtCore import Qt
 import hashlib
 import shutil
 import re
-
 
 with open("./patch_path.txt", "r+") as f:
     patchPath = f.readline()
@@ -22,9 +21,26 @@ class PatchGenGUI(QMainWindow):
         self.setFixedSize(400, 300)
         self.setStyleSheet("background-color: rgb(39, 43, 54);")
 
+        self.versionLabel = QLabel(self)
+        with open(f"{patchPath}/PatchInfoServer.cfg") as versionCfg:
+            versionCfgNow = versionCfg.readline()
+
+        self.versionLabel.setText(versionCfgNow)
+        labelFont = QtGui.QFont()
+        labelFont.setFamily("Segoe UI Black")
+        self.versionLabel.setAlignment(Qt.AlignCenter)
+        self.versionLabel.setFont(labelFont)
+        self.versionLabel.setStyleSheet("""
+        QLabel {
+            color: rgb(204, 205, 212);
+        }
+        """)
+
         self.line = QLineEdit(self)
-        self.line.move(100, 50)
-        self.line.resize(200, 32)
+        self.line.setMaxLength(3)
+        self.line.move(165, 50)
+        self.line.resize(70, 32)
+        self.line.setAlignment(QtCore.Qt.AlignCenter)
         self.line.setFont(font)
         self.line.setStyleSheet("""
         QLineEdit {
@@ -52,9 +68,6 @@ class PatchGenGUI(QMainWindow):
         
         QPushButton[Active=true] {
             color: rgb(255,255,255);
-            background-image: ICON_REPLACE;
-            background-position: left center;
-            background-repeat: no-repeat;
             border: none;
             background-color: rgb(27, 29, 35);
             text-align: left;
