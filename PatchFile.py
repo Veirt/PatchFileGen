@@ -17,13 +17,62 @@ class PatchGenGUI(QMainWindow):
         super().__init__()
         self.setWindowTitle("PatchFileGen")
         self.setWindowIcon(QtGui.QIcon("miku.png"))
-        self.resize(400, 300)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        self.setFixedSize(400, 300)
+        self.setStyleSheet("background-color: rgb(39, 43, 54);")
+
         self.line = QLineEdit(self)
         self.line.move(100, 50)
         self.line.resize(200, 32)
+        self.line.setFont(font)
+        self.line.setStyleSheet("""
+        QLineEdit {
+            border: none;
+            background-color: rgb(49, 54, 68);
+            color: rgb(255, 255, 255);
+        }
+        """)
         self.line.textChanged.connect(self.on_text_changed)
 
         self.btn = QPushButton('Patch', self)
+        self.btn.setFont(font)
+        self.btn.setStyleSheet("""
+        QPushButton {
+            color: rgb(212, 212, 212);
+            border: none;
+            background-color: rgb(51, 59, 72);
+            text-align: center;
+        }
+        
+        QPushButton:hover {
+            color: rgb(255,255,255);
+            background-color: rgb(63, 73, 89);
+        }
+        
+        QPushButton[Active=true] {
+            color: rgb(255,255,255);
+            background-image: ICON_REPLACE;
+            background-position: left center;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: rgb(27, 29, 35);
+            text-align: left;
+            padding-left: 45px;
+        }
+        
+        QPushButton:hover {
+            color: rgb(255,255,255);
+            background-color: rgb(33, 37, 43);
+        }
+        
+        QPushButton:pressed {
+            
+            background-color: rgb(230, 126, 125);
+        }
+        
+            """)
+
         self.btn.setDisabled(True)
         self.btn.setGeometry(100, 100, 200, 50)
         self.btn.clicked.connect(self.makePatch)
