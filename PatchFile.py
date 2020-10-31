@@ -1,11 +1,13 @@
-import sys
-import os
-from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidget, QListWidgetItem, QPushButton, QLineEdit, QLabel
-from PyQt5.QtCore import Qt
 import hashlib
-import shutil
+import os
 import re
+import shutil
+import sys
+
+from PyQt5 import QtCore, QtGui
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import (QApplication, QLabel, QLineEdit, QListWidget,
+                             QListWidgetItem, QMainWindow, QPushButton)
 
 with open("./patch_path.txt", "r+") as f:
     patchPath = f.readline()
