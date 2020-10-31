@@ -8,7 +8,7 @@ import shutil
 import re
 
 
-with open("patch_path.txt", "r+") as f:
+with open("./patch_path.txt", "r+") as f:
     patchPath = f.readline()
 
 
@@ -16,7 +16,7 @@ class PatchGenGUI(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("PatchFileGen")
-        self.setWindowIcon(QtGui.QIcon("miku.png"))
+        self.setWindowIcon(QtGui.QIcon("./miku.ico"))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         self.setFixedSize(400, 300)
@@ -67,7 +67,6 @@ class PatchGenGUI(QMainWindow):
         }
         
         QPushButton:pressed {
-            
             background-color: rgb(230, 126, 125);
         }
         
