@@ -138,11 +138,11 @@ class PatchGenGUI(QMainWindow):
         except OSError:
             pass
 
-        with open(f"{patchPath}PatchInfoServer.cfg", "w") as versionCfg:
+        with open(f"{patchPath}/PatchInfoServer.cfg", "w") as versionCfg:
             versionCfg.write(f"Version {versionInput}")
 
         # Make Patch.md5
-        with open(f"{patchPath}00000{versionInput}/Patch00000{versionInput}.pak.md5", "w") as patchMD5:
+        with open(f"{patchPath}/00000{versionInput}/Patch00000{versionInput}.pak.md5", "w") as patchMD5:
             patchMD5.write(f"{hashlib.md5(open(file_name, 'rb').read()).hexdigest()}\n")
 
         # Make Patch.txt file
@@ -152,11 +152,11 @@ class PatchGenGUI(QMainWindow):
             output_decoded = map(lambda decoded: f"D {decoded}", decoded)
             output_txt = "\n".join(list(output_decoded))
 
-        with open(f"{patchPath}00000{versionInput}/Patch00000{versionInput}.txt", "w") as patchTxt:
+        with open(f"{patchPath}/00000{versionInput}/Patch00000{versionInput}.txt", "w") as patchTxt:
             patchTxt.write(output_txt)
 
         try:
-            shutil.copy2(file_name, f"{patchPath}00000{versionInput}/Patch00000{versionInput}.pak")
+            shutil.copy2(file_name, f"{patchPath}/00000{versionInput}/Patch00000{versionInput}.pak")
         except shutil.SameFileError:
             pass
 
