@@ -7,10 +7,7 @@ import sys
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (QApplication, QLabel, QLineEdit, QListWidget,
-                             QListWidgetItem, QMainWindow, QPushButton)
-
-with open("./patch_path.txt", "r+") as f:
-    patchPath = f.readline()
+                             QListWidgetItem, QMainWindow, QPushButton, QMessageBox)
 
 
 class PatchGenGUI(QMainWindow):
@@ -23,9 +20,29 @@ class PatchGenGUI(QMainWindow):
         self.setFixedSize(400, 300)
         self.setStyleSheet("background-color: rgb(39, 43, 54);")
 
+        try:
+            with open("./patch_path.txt", "r+") as f:
+                self.patchPath = f.readline()
+        except FileNotFoundError:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setWindowTitle("patch_path.txt not found")
+            msg.setText("Please make sure patch_path.txt is in the same directory.")
+            show = msg.exec_()
+            sys.exit()
+
         self.versionLabel = QLabel(self)
-        with open(f"{patchPath}/PatchInfoServer.cfg") as versionCfg:
-            versionCfgNow = versionCfg.readline()
+
+        try:
+            with open(f"{self.patchPath}/PatchInfoServer.cfg") as versionCfg:
+                versionCfgNow = versionCfg.readline()
+        except FileNotFoundError:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setWindowTitle("PatchInfoServer.cfg not found")
+            msg.setText("PatchInfoServer.cfg is not found in your patch directory.")
+            show = msg.exec_()
+            sys.exit()
 
         self.versionLabel.setText(versionCfgNow)
         labelFont = QtGui.QFont()
@@ -132,17 +149,17 @@ class PatchGenGUI(QMainWindow):
         else:
             sys.exit()
 
-        path = f"{patchPath}00000{versionInput}"
+        path = f"{self.patchPath}00000{versionInput}"
         try:
             os.mkdir(path)
         except OSError:
             pass
 
-        with open(f"{patchPath}/PatchInfoServer.cfg", "w") as versionCfg:
+        with open(f"{self.patchPath}/PatchInfoServer.cfg", "w") as versionCfg:
             versionCfg.write(f"Version {versionInput}")
 
         # Make Patch.md5
-        with open(f"{patchPath}/00000{versionInput}/Patch00000{versionInput}.pak.md5", "w") as patchMD5:
+        with open(f"{self.patchPath}/00000{versionInput}/Patch00000{versionInput}.pak.md5", "w") as patchMD5:
             patchMD5.write(f"{hashlib.md5(open(file_name, 'rb').read()).hexdigest()}\n")
 
         # Make Patch.txt file
@@ -152,14 +169,13 @@ class PatchGenGUI(QMainWindow):
             output_decoded = map(lambda decoded: f"D {decoded}", decoded)
             output_txt = "\n".join(list(output_decoded))
 
-        with open(f"{patchPath}/00000{versionInput}/Patch00000{versionInput}.txt", "w") as patchTxt:
+        with open(f"{self.patchPath}/00000{versionInput}/Patch00000{versionInput}.txt", "w") as patchTxt:
             patchTxt.write(output_txt)
 
         try:
-            shutil.copy2(file_name, f"{patchPath}/00000{versionInput}/Patch00000{versionInput}.pak")
+            shutil.copy2(file_name, f"{self.patchPath}/00000{versionInput}/Patch00000{versionInput}.pak")
         except shutil.SameFileError:
             pass
-
         sys.exit()
 
     @QtCore.pyqtSlot()
