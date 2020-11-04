@@ -6,9 +6,9 @@
 [![Dependency](https://img.shields.io/github/pipenv/locked/dependency-version/ExLog/PatchFileGen/pyqt5?color=3fc74f&style=for-the-badge)](https://github.com/ExLog/PatchFileGen/blob/main/Pipfile.lock)
 
 A GUI to generate patch files such as 
-- Patch.txt
-- Patch.pak.md5
-- Version.cfg
+- Patch[version].txt
+- Patch[version].pak.md5
+- PatchInfoServer.cfg
 
 by dragging your PAK file onto window.
 
@@ -19,4 +19,9 @@ Put your patch path into patch_path.txt.
 e.g.
 ```
 C:/xampp/htdocs/Patch/
+```
+
+Or if you use php 5.2
+```
+C:/php5.2/WWW/GX/
 ```
