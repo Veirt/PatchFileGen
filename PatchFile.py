@@ -149,7 +149,7 @@ class PatchGenGUI(QMainWindow):
         else:
             sys.exit()
 
-        path = f"{self.patchPath}00000{versionInput}"
+        path = f"{self.patchPath}/00000{versionInput}"
         try:
             os.mkdir(path)
         except OSError:
