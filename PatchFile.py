@@ -28,7 +28,7 @@ class PatchGenGUI(QMainWindow):
             msg.setIcon(QMessageBox.Critical)
             msg.setWindowTitle("patch_path.txt not found")
             msg.setText("Please make sure patch_path.txt is in the same directory.")
-            show = msg.exec_()
+            msg.exec_()
             sys.exit()
 
         self.versionLabel = QLabel(self)
@@ -41,7 +41,7 @@ class PatchGenGUI(QMainWindow):
             msg.setIcon(QMessageBox.Critical)
             msg.setWindowTitle("PatchInfoServer.cfg not found")
             msg.setText("PatchInfoServer.cfg is not found in your patch directory.")
-            show = msg.exec_()
+            msg.exec_()
             sys.exit()
 
         self.versionLabel.setText(versionCfgNow)
