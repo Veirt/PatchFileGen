@@ -6,8 +6,8 @@ import sys
 
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QApplication, QLabel, QLineEdit
-                            , QMainWindow, QPushButton, QMessageBox)
+from PyQt5.QtWidgets import (QApplication, QLabel, QLineEdit, QMainWindow,
+                             QMessageBox, QPushButton)
 
 
 class PatchGenGUI(QMainWindow):
@@ -164,8 +164,8 @@ class PatchGenGUI(QMainWindow):
 
         # Make Patch.txt file
         with open(file_name, "rb") as pak:
-            findregex = re.findall(rb"(resource.*?|mapdata.*?)\x00\B", pak.read())
-            decoded = [byte_out.decode("utf-8") for byte_out in findregex]
+            findRegex = re.findall(rb"(resource.*?|mapdata.*?)\x00\B", pak.read())
+            decoded = [byte_out.decode("utf-8") for byte_out in findRegex]
             output_decoded = map(lambda decoded: f"D {decoded}", decoded)
             output_txt = "\n".join(list(output_decoded))
 
