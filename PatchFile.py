@@ -166,8 +166,7 @@ class PatchGenGUI(QMainWindow):
         # Make Patch.txt file
         with codecs.open(file_name, "rb", encoding='utf-8', errors='ignore') as pak:
             findRegex = re.findall(r'(resource.*?|mapdata.*?)\W\B', pak.read())
-            decoded = [byte_out for byte_out in findRegex]
-            output_decoded = map(lambda decoded: f"D {decoded}", decoded)
+            output_decoded = map(lambda decoded: f"D {decoded}", list(findRegex))
             output_txt = "\n".join(list(output_decoded))
 
         with open(f"{self.patchPath}/00000{versionInput}/Patch00000{versionInput}.txt", "w") as patchTxt:
