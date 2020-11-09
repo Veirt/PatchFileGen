@@ -3,6 +3,7 @@ import os
 import re
 import shutil
 import sys
+import codecs
 
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import Qt
@@ -163,9 +164,9 @@ class PatchGenGUI(QMainWindow):
             patchMD5.write(f"{hashlib.md5(open(file_name, 'rb').read()).hexdigest()}\n")
 
         # Make Patch.txt file
-        with open(file_name, "rb") as pak:
-            findregex = re.findall(rb"(resource.*?|mapdata.*?)\x00\B", pak.read())
-            decoded = [byte_out.decode("utf-8") for byte_out in findregex]
+        with codecs.open(file_name, "rb", encoding='utf-8', errors='ignore') as pak:
+            findRegex = re.findall(r'(resource.*?|mapdata.*?)\W\B', pak.read())
+            decoded = [byte_out for byte_out in findRegex]
             output_decoded = map(lambda decoded: f"D {decoded}", decoded)
             output_txt = "\n".join(list(output_decoded))
 
