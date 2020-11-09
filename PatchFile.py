@@ -7,8 +7,8 @@ import codecs
 
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QApplication, QLabel, QLineEdit
-                            , QMainWindow, QPushButton, QMessageBox)
+from PyQt5.QtWidgets import (QApplication, QLabel, QLineEdit, QMainWindow,
+                             QMessageBox, QPushButton)
 
 
 class PatchGenGUI(QMainWindow):
