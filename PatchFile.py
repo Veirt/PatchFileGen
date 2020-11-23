@@ -140,15 +140,7 @@ class PatchGenGUI(QMainWindow):
 
     def makePatch(self):
         file_name = self.pak
-        versionInput = self.line.text()
-        if len(versionInput) == 1:
-            versionInput = f"00{versionInput}"
-        elif len(versionInput) == 2:
-            versionInput = f"0{versionInput}"
-        elif len(versionInput) == 3:
-            versionInput = f"{versionInput}"
-        else:
-            sys.exit()
+        versionInput = "{version:03d}".format(version=self.line.text())
 
         path = f"{self.patchPath}/00000{versionInput}"
         try:
