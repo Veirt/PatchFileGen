@@ -36,7 +36,7 @@ class PatchGenGUI(QMainWindow):
 
         try:
             with open(f"{self.patchPath}/PatchInfoServer.cfg") as versionCfg:
-                versionCfgNow = versionCfg.readline()
+                version_cfg_now = versionCfg.readline()
         except FileNotFoundError:
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
@@ -45,11 +45,11 @@ class PatchGenGUI(QMainWindow):
             msg.exec_()
             sys.exit()
 
-        self.versionLabel.setText(versionCfgNow)
-        labelFont = QtGui.QFont()
-        labelFont.setFamily("Segoe UI Black")
+        self.versionLabel.setText(version_cfg_now)
+        label_font = QtGui.QFont()
+        label_font.setFamily("Segoe UI Black")
         self.versionLabel.setAlignment(Qt.AlignCenter)
-        self.versionLabel.setFont(labelFont)
+        self.versionLabel.setFont(label_font)
         self.versionLabel.setStyleSheet("""
         QLabel {
             color: rgb(204, 205, 212);
@@ -107,7 +107,7 @@ class PatchGenGUI(QMainWindow):
 
         self.btn.setDisabled(True)
         self.btn.setGeometry(100, 100, 200, 50)
-        self.btn.clicked.connect(self.makePatch)
+        self.btn.clicked.connect(self.make_patch)
         self.btn.setShortcut("Return")
         self.setAcceptDrops(True)
         self.pak = ""
@@ -138,34 +138,34 @@ class PatchGenGUI(QMainWindow):
         else:
             event.ignore()
 
-    def makePatch(self):
+    def make_patch(self):
         file_name = self.pak
-        versionInput = "{version:03d}".format(version=self.line.text())
+        version_input = "{version:03d}".format(version=self.line.text())
 
-        path = f"{self.patchPath}/00000{versionInput}"
+        path = f"{self.patchPath}/00000{version_input}"
         try:
             os.mkdir(path)
         except OSError:
             pass
 
         with open(f"{self.patchPath}/PatchInfoServer.cfg", "w") as versionCfg:
-            versionCfg.write(f"Version {versionInput}")
+            versionCfg.write(f"Version {version_input}")
 
         # Make Patch.md5
-        with open(f"{self.patchPath}/00000{versionInput}/Patch00000{versionInput}.pak.md5", "w") as patchMD5:
+        with open(f"{self.patchPath}/00000{version_input}/Patch00000{version_input}.pak.md5", "w") as patchMD5:
             patchMD5.write(f"{hashlib.md5(open(file_name, 'rb').read()).hexdigest()}\n")
 
         # Make Patch.txt file
         with codecs.open(file_name, "rb", encoding='utf-8', errors='ignore') as pak:
-            findRegex = re.findall(r'(resource.*?|mapdata.*?)\W\B', pak.read())
-            output_decoded = map(lambda decoded: f"D {decoded}", list(findRegex))
+            find_regex = re.findall(r'(resource.*?|mapdata.*?)\W\B', pak.read())
+            output_decoded = map(lambda decoded: f"D {decoded}", list(find_regex))
             output_txt = "\n".join(list(output_decoded))
 
-        with open(f"{self.patchPath}/00000{versionInput}/Patch00000{versionInput}.txt", "w") as patchTxt:
+        with open(f"{self.patchPath}/00000{version_input}/Patch00000{version_input}.txt", "w") as patchTxt:
             patchTxt.write(output_txt)
 
         try:
-            shutil.copy2(file_name, f"{self.patchPath}/00000{versionInput}/Patch00000{versionInput}.pak")
+            shutil.copy2(file_name, f"{self.patchPath}/00000{version_input}/Patch00000{version_input}.pak")
         except shutil.SameFileError:
             pass
         sys.exit()
