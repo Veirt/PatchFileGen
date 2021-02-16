@@ -11,3 +11,6 @@ pyinstaller = "*"
 
 [requires]
 python_version = "3.9"
+
+[scripts]
+build = "pyinstaller PatchFile.py -w --onedir"
