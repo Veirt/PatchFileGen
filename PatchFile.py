@@ -100,7 +100,9 @@ class PatchGenGUI(QMainWindow):
 
     def generate_md5(self, file_name, version):
         with open(f"{self.patchPath}/00000{version}/Patch00000{version}.pak.md5", "w") as patchMD5:
-            patchMD5.write(f"{hashlib.md5(open(file_name, 'rb').read()).hexdigest()}\n")
+            with open(file_name, 'rb') as md5:
+                file_md5 = hashlib.md5(md5.read()).hexdigest()
+            patchMD5.write(f"{file_md5}\n")
 
     def generate_txt(self, file_name, version):
         with codecs.open(file_name, "rb", encoding='utf-8', errors='ignore') as pak:
