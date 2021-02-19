@@ -2,8 +2,9 @@
 
 # Jupyter Notebooks
 .ipynb_checkpoints/
-# Pycharm
+# Code Editor and IDE
 .idea/
+.vscode/
 # Distribution
 build/
 dist/
@@ -15,4 +16,3 @@ __pycache__/
 *.spec
 
 # Test
-test.py
